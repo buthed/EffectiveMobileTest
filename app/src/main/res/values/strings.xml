@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">EffectiveMobileTest</string>
+
+    // Nav items
+    <string name="nav_main">Главная</string>
+    <string name="nav_catalog">Каталог</string>
+    <string name="nav_basket">Корзина</string>
+    <string name="nav_promotions">Акции</string>
+    <string name="nav_profile">Профиль</string>
+
+    // Entry
+    <string name="entry_title">Вход</string>
+    <string name="entry_first_name">Имя</string>
+    <string name="entry_second_name">Фамилия</string>
+    <string name="entry_phone_number">Номер телефона</string>
+    <string name="entry_button">Войти</string>
+    <string name="entry_warning">Нажимая кнопку “Войти”, Вы принимаете"\n
+        <u>условия программы лояльности</u></string>
+
+    // Catalog
+    <string name="catalog_title">Каталог</string>
+    <string name="catalog_filter">Фильтры</string>
+    <string name="catalog_sort_rating">По популярности</string>
+    <string name="catalog_sort_increase">По увеличению</string>
+    <string name="catalog_sort_decrease">По уменьшению</string>
+    <string name="catalog_tag_all">Смотреть все</string>
+    <string name="catalog_tag_face">Лицо</string>
+    <string name="catalog_tag_body">Тело</string>
+    <string name="catalog_tag_tan">Загар</string>
+    <string name="catalog_tag_masks">Маски</string>
+
+    // Product page
+    <string name="product_page_hide">Скрыть</string>
+    <string name="product_page_details">Подробнее</string>
+    <string name="product_page_characteristics">Характеристики</string>
+    <string name="product_page_compound">Состав</string>
+    <string name="product_page_add_to_basket">Добавить корзину</string>
+
+    // Personal account
+    <string name="personal_account_title">Личный кабинет</string>
+    <string name="personal_account_favorite">Избранное</string>
+    <string name="personal_account_shops">Магазины</string>
+    <string name="personal_account_feedback">Обратная связь</string>
+    <string name="personal_account_offer">Оферта</string>
+    <string name="personal_account_purchase_returns">Возврат товара</string>
+    <string name="personal_account_log_out">Выйти</string>
+
+    // Favorite
+    <string name="favorite_title">Избранное</string>
+    <string name="favorite_goods">Товары</string>
+    <string name="favorite_brands">Бренды</string>
+
 </resources>
