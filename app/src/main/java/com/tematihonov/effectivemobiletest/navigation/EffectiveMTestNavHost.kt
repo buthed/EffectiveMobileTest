@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tematihonov.effectivemobiletest.presentation.basket.BasketScreen
 import com.tematihonov.effectivemobiletest.presentation.catalog.CatalogScreen
+import com.tematihonov.effectivemobiletest.presentation.login.LoginScreen
 import com.tematihonov.effectivemobiletest.presentation.main.MainScreen
 import com.tematihonov.effectivemobiletest.presentation.profile.ProfileScreen
 import com.tematihonov.effectivemobiletest.presentation.promotions.PromotionsScreen
@@ -15,12 +16,13 @@ import com.tematihonov.effectivemobiletest.presentation.promotions.PromotionsScr
 fun EffectiveMTestNavHost(navController: NavHostController, paddingValues: PaddingValues) {
     NavHost(
         navController = navController,
-        startDestination = "main"
+        startDestination = "catalog"
     ) {
-        composable("main") { MainScreen() }
-        composable("catalog") { CatalogScreen() }
-        composable("basket") { BasketScreen() }
-        composable("promotions") { PromotionsScreen() }
-        composable("profile") { ProfileScreen() }
+        composable("main") { MainScreen(navController) }
+        composable("catalog") { CatalogScreen(navController) }
+        composable("basket") { BasketScreen(navController) }
+        composable("promotions") { PromotionsScreen(navController) }
+        composable("profile") { ProfileScreen(navController) }
+        composable("login") { LoginScreen() }
     }
 }

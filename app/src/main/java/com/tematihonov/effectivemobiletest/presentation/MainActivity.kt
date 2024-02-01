@@ -9,13 +9,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.navigation.BottomNavItem
 import com.tematihonov.effectivemobiletest.navigation.EffectiveMTestNavHost
 import com.tematihonov.effectivemobiletest.presentation.app_components.BottomNavigationBar
+import com.tematihonov.effectivemobiletest.presentation.login.LoginScreen
 import com.tematihonov.effectivemobiletest.ui.theme.EffectiveMobileTestTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,19 +54,28 @@ class MainActivity : ComponentActivity() {
                 )
                 val navController = rememberNavController()
 
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        BottomNavigationBar(
-                            modifier = Modifier.height(56.dp),
-                            items = bottomBarItems,
-                            navController = navController,
-                            onItemClick = {
-                                navController.navigate(it.route)
-                            })
+                val viewModel = hiltViewModel<LoginViewModel>()
+
+                when (viewModel.userLogined) {
+                    true -> {
+                        Scaffold(
+                            modifier = Modifier.fillMaxSize(),
+                            bottomBar = {
+                                BottomNavigationBar(
+                                    modifier = Modifier.height(56.dp),
+                                    items = bottomBarItems,
+                                    navController = navController,
+                                    onItemClick = {
+                                        navController.navigate(it.route)
+                                    })
+                            }
+                        ) { paddingValues ->
+                            EffectiveMTestNavHost(navController = navController, paddingValues)
+                        }
                     }
-                ) { paddingValues ->
-                    EffectiveMTestNavHost(navController = navController, paddingValues)
+                    false -> {
+                        LoginScreen()
+                    }
                 }
             }
         }
