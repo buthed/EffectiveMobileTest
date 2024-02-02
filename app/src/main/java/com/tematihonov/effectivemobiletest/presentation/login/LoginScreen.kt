@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,14 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.presentation.LoginViewModel
-import com.tematihonov.effectivemobiletest.presentation.app_components.EmButtonEnter
-import com.tematihonov.effectivemobiletest.presentation.app_components.EmTopAppBar
+import com.tematihonov.effectivemobiletest.presentation.app_components.ButtonEnter
+import com.tematihonov.effectivemobiletest.presentation.app_components.TopAppBar
 import com.tematihonov.effectivemobiletest.presentation.login.components.EmTextField
 import com.tematihonov.effectivemobiletest.presentation.login.components.EmTextFieldPhone
+import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
@@ -36,28 +36,32 @@ fun LoginScreen() {
     val viewModel = hiltViewModel<LoginViewModel>()
     Scaffold(
         topBar = {
-            EmTopAppBar(stringResource(id = R.string.entry_title))
+            TopAppBar(stringResource(id = R.string.entry_title))
         },
         bottomBar = {
-            Text(text = stringResource(id = R.string.entry_warning), style = Typography.labelMedium,
+            Text(
+                text = stringResource(id = R.string.entry_warning), style = Typography.labelMedium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 11.dp),
                 textAlign = TextAlign.Center,
-                lineHeight = 5.sp)
-        }
+                lineHeight = 5.sp
+            )
+        },
+        containerColor = MaterialTheme.colors.bgWhite
     ) {
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(paddingValues = it), contentAlignment = Alignment.Center) {//TODO add padding to top
+                .padding(paddingValues = it), contentAlignment = Alignment.Center
+        ) {//TODO add padding to top
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                
+
                 var firstName by remember { mutableStateOf("") }
                 var firstNameValidation by remember { mutableStateOf(true) }
                 EmTextField(
@@ -88,13 +92,13 @@ fun LoginScreen() {
                     value = phoneNumber,
                     placeholder = stringResource(id = R.string.entry_phone_number),
                     onValueChange = { newText ->
-                        if (newText.length <=10) phoneNumber = newText
+                        if (newText.length <= 10) phoneNumber = newText
                         secondNameValidation = checkValidation(newText)
                     },
                     validation = phoneNumberValidation,
                 )
 
-                EmButtonEnter(true) {
+                ButtonEnter(true) {
                     viewModel.userLogined = true
                 } //TODO add
             }

@@ -68,11 +68,12 @@ class MainActivity : ComponentActivity() {
                                     onItemClick = {
                                         navController.navigate(it.route)
                                     })
-                            }
+                            },
                         ) { paddingValues ->
                             EffectiveMTestNavHost(navController = navController, paddingValues)
                         }
                     }
+
                     false -> {
                         LoginScreen()
                     }

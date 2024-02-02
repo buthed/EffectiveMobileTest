@@ -1,16 +1,80 @@
 package com.tematihonov.effectivemobiletest.presentation.profile
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.tematihonov.effectivemobiletest.R
+import com.tematihonov.effectivemobiletest.presentation.app_components.ButtonExit
+import com.tematihonov.effectivemobiletest.presentation.app_components.TopAppBar
+import com.tematihonov.effectivemobiletest.presentation.profile.components.CommonTab
+import com.tematihonov.effectivemobiletest.presentation.profile.components.FavoriteTab
+import com.tematihonov.effectivemobiletest.presentation.profile.components.UserTab
+import com.tematihonov.effectivemobiletest.ui.colors
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "ProfileScreen")
+    Scaffold(
+        topBar = {
+            TopAppBar(stringResource(id = R.string.personal_account_title))
+        },
+        bottomBar = {
+            ButtonExit() {} //TODO add
+        },
+        containerColor = MaterialTheme.colors.bgWhite
+    ) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(
+                    top = it.calculateTopPadding() + 24.dp,
+                    bottom = it.calculateBottomPadding() + 32.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+                UserTab()
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FavoriteTab() //TODO add click
+                    CommonTab(
+                        R.drawable.icon_shop,
+                        stringResource(id = R.string.personal_account_shops)
+                    )
+                    CommonTab(
+                        R.drawable.icon_feedback,
+                        stringResource(id = R.string.personal_account_feedback)
+                    )
+                    CommonTab(
+                        R.drawable.icon_offer,
+                        stringResource(id = R.string.personal_account_offer)
+                    )
+                    CommonTab(
+                        R.drawable.icon_refund,
+                        stringResource(id = R.string.personal_account_purchase_returns)
+                    )
+                }
+            }
+            ButtonExit() {} //TODO add
+        }
+        Box(modifier = Modifier.padding(paddingValues = it))
     }
+}
+
+@Composable
+@Preview
+fun ProfileScreenPreview() {
+    val navController = rememberNavController()
+    ProfileScreen(navController)
 }
