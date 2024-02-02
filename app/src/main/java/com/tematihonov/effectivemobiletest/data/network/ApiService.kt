@@ -1,7 +1,7 @@
 package com.tematihonov.effectivemobiletest.data.network
 
 import com.tematihonov.effectivemobiletest.domain.models.ResponseCatalogList
-import com.tematihonov.effectivemobiletest.utils.RetrofitConstants.GET_ALL_DATA
+import com.tematihonov.effectivemobiletest.utils.Constants.GET_ALL_DATA
 import retrofit2.http.GET
 
 interface ApiService {
