@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
+import com.tematihonov.effectivemobiletest.domain.models.Item
+import com.tematihonov.effectivemobiletest.mapper.parseIdToImageList
 import com.tematihonov.effectivemobiletest.presentation.app_components.Discount
 import com.tematihonov.effectivemobiletest.presentation.app_components.SmallEllipse
 import com.tematihonov.effectivemobiletest.presentation.app_components.StarRating
@@ -33,7 +36,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun CatalogScreenItem() {
+fun CatalogScreenItem(catalogItem: Item) {
     Card(
         modifier = Modifier
             .background(MaterialTheme.colors.bgWhite)
@@ -47,11 +50,11 @@ fun CatalogScreenItem() {
             contentAlignment = Alignment.BottomCenter
         ) {
             Image(
-                painter = painterResource(id = R.drawable.product_1), contentDescription = "",
+                painter = painterResource(id = parseIdToImageList(catalogItem.id)[0]), contentDescription = "",//TODO add carousel
                 contentScale = ContentScale.FillWidth
             ) //TODO add
             Row {
-                repeat(2) {//TODO add carousel
+                repeat(2) {
                     SmallEllipse()
                 }
             }
@@ -61,13 +64,13 @@ fun CatalogScreenItem() {
                     .width(168.dp), contentAlignment = Alignment.TopEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.icon_heart), contentDescription = "",
+                    painter = painterResource(id = R.drawable.icon_heart), contentDescription = "", //TODO add favorites
                     modifier = Modifier.padding(6.dp)
-                ) //TODO add
+                )
             }
         }
         Column(
-            modifier = Modifier.background(MaterialTheme.colors.bgWhite),
+            modifier = Modifier.background(MaterialTheme.colors.bgWhite).height(144.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Column(
@@ -75,24 +78,25 @@ fun CatalogScreenItem() {
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text("749 ₽") //TODO add
+                    Text("${catalogItem.price.price} ${catalogItem.price.unit}", style = Typography.labelSmall, color = MaterialTheme.colors.textGrey)
                     Image(
                         painter = painterResource(id = R.drawable.crossed_out),
                         contentDescription = ""
                     )
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(text = "489 ₽", style = Typography.titleSmall) //TODO add
-                    Discount(35) //TODO add
+                    Text(text = "${catalogItem.price.priceWithDiscount} ${catalogItem.price.unit}", style = Typography.titleSmall)
+                    Discount(catalogItem.price.discount)
                 }
-                Text(text = "ESFOLIO", style = Typography.headlineSmall) //TODO add
+                Text(text = catalogItem.title, style = Typography.headlineSmall)
                 Text(
-                    text = "Лосьон для тела`ESFOLIO` COENZYME Q 10 Увлажняющий 500 мл",
-                    style = Typography.bodySmall
-                ) //TODO add
-                StarRating(4.3, 4)
+                    text = catalogItem.subtitle,
+                    style = Typography.bodySmall,
+                    modifier = Modifier.height(37.dp)
+                )
+                StarRating(catalogItem.feedback.rating, catalogItem.feedback.count)
             }
-            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.BottomEnd) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
                 Box(
                     modifier = Modifier
                         .clip(RoundedCornerShape(topStart = 8.dp))
@@ -115,5 +119,5 @@ fun CatalogScreenItem() {
 @Composable
 @Preview
 fun CatalogScreenItemPreview() {
-    CatalogScreenItem()
+    //CatalogScreenItem(catalogItem)
 }

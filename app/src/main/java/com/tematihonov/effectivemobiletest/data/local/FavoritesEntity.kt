@@ -9,15 +9,15 @@ import com.tematihonov.effectivemobiletest.utils.RoomConstants.FAVORITES_TABLE_N
 
 @Entity(tableName = FAVORITES_TABLE_NAME)
 data class FavoritesEntity(
-    @PrimaryKey
     val available: Int,
     val description: String,
-    val feedback: Feedback,
+    //val feedback: Feedback,
+    @PrimaryKey
     val id: String,
-    val info: List<Info>,
+    //val info: List<Info>,
     val ingredients: String,
-    val price: Price,
+    //val price: Price, //TODO
     val subtitle: String,
-    val tags: List<String>,
+    //val tags: List<String>,
     val title: String
 )
