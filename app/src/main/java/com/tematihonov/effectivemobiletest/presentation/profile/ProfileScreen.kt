@@ -1,5 +1,9 @@
 package com.tematihonov.effectivemobiletest.presentation.profile
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,9 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.tematihonov.effectivemobiletest.R
@@ -24,12 +30,15 @@ import com.tematihonov.effectivemobiletest.ui.colors
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
+    val viewModel = hiltViewModel<ProfileViewModel>()
+    val context = LocalContext.current
+    
     Scaffold(
         topBar = {
             TopAppBar(stringResource(id = R.string.personal_account_title))
         },
         bottomBar = {
-            ButtonExit() {} //TODO add
+            ButtonExit() { } //TODO add
         },
         containerColor = MaterialTheme.colors.bgWhite
     ) {
@@ -45,7 +54,7 @@ fun ProfileScreen(navController: NavHostController) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-                UserTab()
+                UserTab(viewModel.currentUser)
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     FavoriteTab() //TODO add click
                     CommonTab(
@@ -66,10 +75,23 @@ fun ProfileScreen(navController: NavHostController) {
                     )
                 }
             }
-            ButtonExit() {} //TODO add
+            ButtonExit() {
+                viewModel.deleteDatabase(navController)
+                restartApp(context)
+            }
         }
         Box(modifier = Modifier.padding(paddingValues = it))
     }
+}
+
+
+private fun restartApp(context: Context) {
+    val packageManager: PackageManager = context.packageManager
+    val intent: Intent = packageManager.getLaunchIntentForPackage(context.packageName)!!
+    val componentName: ComponentName = intent.component!!
+    val restartIntent: Intent = Intent.makeRestartActivityTask(componentName)
+    context.startActivity(restartIntent)
+    Runtime.getRuntime().exit(0)
 }
 
 @Composable

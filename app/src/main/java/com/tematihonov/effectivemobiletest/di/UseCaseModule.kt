@@ -1,7 +1,10 @@
 package com.tematihonov.effectivemobiletest.di
 
+import com.tematihonov.effectivemobiletest.data.local.EffectiveMobileTestDao
 import com.tematihonov.effectivemobiletest.data.repositoryImpl.NetworkRepositoryImpl
+import com.tematihonov.effectivemobiletest.data.repositoryImpl.RoomRepositoryImpl
 import com.tematihonov.effectivemobiletest.domain.repository.NetworkRepository
+import com.tematihonov.effectivemobiletest.domain.repository.RoomRepository
 import com.tematihonov.effectivemobiletest.domain.usecase.NetworkUnionUseCases
 import com.tematihonov.effectivemobiletest.domain.usecase.network.GetCatalogListUseCase
 import dagger.Module

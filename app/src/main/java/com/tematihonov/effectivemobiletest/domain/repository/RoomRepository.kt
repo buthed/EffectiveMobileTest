@@ -9,13 +9,15 @@ interface RoomRepository {
 
     fun selectAllFavoritesItems(): FavoritesEntity
 
-    fun deleteAllFavoritesItems()
+    suspend fun deleteAllFavoritesItems()
 
     fun deleteItemFromFavorites(id: Int)
 
     suspend fun addUser(userEntity: UserEntity)
 
-    fun checkUserLogin(): UserEntity
+    suspend fun getUserInfo(): UserEntity
 
-    fun deleteUser()
+    suspend fun checkUserLogin(): Boolean
+
+    suspend fun deleteUser()
 }

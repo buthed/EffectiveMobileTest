@@ -1,6 +1,7 @@
 package com.tematihonov.effectivemobiletest.presentation.login.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +10,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -35,17 +37,18 @@ fun EmTextField(
     placeholder: String,
     onValueChange: (String) -> Unit,
     validation: Boolean,
+    clearField: () -> Unit
 ) {
-//    when (validation) {
-//        true -> MaterialTheme.colors.bgLightGray
-//        false -> MaterialTheme.colors.bgLightPink
-//    } //TODO add
+    var containerColor = when (validation) {
+        true -> MaterialTheme.colors.bgLightGray
+        false -> MaterialTheme.colors.bgLightPink
+    }
     Card(
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            //containerColor = MaterialTheme.colors.bgLightGray
+            containerColor = MaterialTheme.colors.bgLightGray
         )
     ) {
         TextField(
@@ -55,10 +58,10 @@ fun EmTextField(
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.bgLightGray),
             colors = TextFieldDefaults.colors(
-                disabledContainerColor = MaterialTheme.colors.bgLightGray,
-                errorContainerColor = MaterialTheme.colors.bgLightGray,
-                focusedContainerColor = MaterialTheme.colors.bgLightGray,
-                unfocusedContainerColor = MaterialTheme.colors.bgLightGray,
+                disabledContainerColor = containerColor,
+                errorContainerColor = containerColor,
+                focusedContainerColor = containerColor,
+                unfocusedContainerColor = containerColor,
                 focusedTextColor = MaterialTheme.colors.textBlack,
 //                disabledPlaceholderColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
@@ -81,7 +84,7 @@ fun EmTextField(
                 if (value.isNotEmpty()) Icon(
                     painter = painterResource(id = R.drawable.icon_small_close),
                     contentDescription = "",
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(28.dp).clickable(onClick = clearField)
                 )
             },
             singleLine = true,
@@ -95,20 +98,15 @@ fun EmTextFieldPhone(
     placeholder: String,
     onValueChange: (String) -> Unit,
     validation: Boolean,
+    clearField: () -> Unit
 ) {
-//    when (validation) {
-//        true -> MaterialTheme.colors.bgLightGray
-//        false -> MaterialTheme.colors.bgLightPink
-//    } //TODO add
+
     Card(
         modifier = Modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(
-            //containerColor = MaterialTheme.colors.bgLightGray
-        )
     ) {
-        TextField(
+        OutlinedTextField(
             value = value,
             onValueChange = onValueChange,
             modifier = Modifier
@@ -142,7 +140,7 @@ fun EmTextFieldPhone(
                 if (value.isNotEmpty()) Icon(
                     painter = painterResource(id = R.drawable.icon_small_close),
                     contentDescription = "",
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(28.dp).clickable(onClick = clearField)
                 )
             },
             singleLine = true,
@@ -211,7 +209,8 @@ fun EmTextFieldPreview() {
         stringResource(id = R.string.entry_first_name),
         stringResource(id = R.string.entry_first_name),
         { },
-        false
+        true,
+        {}
     )
 }
 
@@ -223,5 +222,6 @@ fun EmTextFieldPhonePreview() {
         stringResource(id = R.string.entry_phone_number),
         { },
         false,
+        {}
     )
 }

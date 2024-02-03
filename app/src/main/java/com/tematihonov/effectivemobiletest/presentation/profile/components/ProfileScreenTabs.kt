@@ -22,11 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
+import com.tematihonov.effectivemobiletest.data.local.UserEntity
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun UserTab() {
+fun UserTab(currentUser: UserEntity?) {
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
@@ -46,14 +47,17 @@ fun UserTab() {
                 painter = painterResource(id = R.drawable.icon_account), contentDescription = "",
                 modifier = Modifier.size(24.dp), tint = MaterialTheme.colors.elementDarkGray
             )
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                Text(text = "Марина Иванова", style = Typography.titleSmall) //TODO add
-                Text(
-                    text = "+7 993 877 44 02",
-                    style = Typography.bodySmall,
-                    color = MaterialTheme.colors.textGrey
-                ) //TODO add
+            if (currentUser != null) {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(text = "${currentUser.firstName} ${currentUser.secondName}", style = Typography.titleSmall) //TODO add
+                    Text(
+                        text = "+7 993 877 44 02",
+                        style = Typography.bodySmall,
+                        color = MaterialTheme.colors.textGrey
+                    ) //TODO add
+                }
             }
+
         }
         Icon(
             painter = painterResource(id = R.drawable.icon_log_out), contentDescription = "",
@@ -141,7 +145,7 @@ fun CommonTab(icon: Int, title: String) { //TODO add image colors
 @Composable
 @Preview
 fun UserTabPreview() {
-    UserTab()
+    UserTab(UserEntity(1, "Марина", "Иванова", "993 877 44 02"))
 }
 
 @Composable

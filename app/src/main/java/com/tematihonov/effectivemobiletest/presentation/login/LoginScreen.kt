@@ -1,5 +1,6 @@
 package com.tematihonov.effectivemobiletest.presentation.login
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,10 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.tematihonov.effectivemobiletest.R
-import com.tematihonov.effectivemobiletest.presentation.LoginViewModel
 import com.tematihonov.effectivemobiletest.presentation.app_components.ButtonEnter
 import com.tematihonov.effectivemobiletest.presentation.app_components.TopAppBar
 import com.tematihonov.effectivemobiletest.presentation.login.components.EmTextField
@@ -32,7 +28,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(buttonClick: () -> Unit) {
     val viewModel = hiltViewModel<LoginViewModel>()
     Scaffold(
         topBar = {
@@ -45,7 +41,8 @@ fun LoginScreen() {
                     .fillMaxWidth()
                     .padding(bottom = 11.dp),
                 textAlign = TextAlign.Center,
-                lineHeight = 5.sp
+                lineHeight = 5.sp,
+                color = MaterialTheme.colors.textGrey
             )
         },
         containerColor = MaterialTheme.colors.bgWhite
@@ -53,7 +50,8 @@ fun LoginScreen() {
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(paddingValues = it), contentAlignment = Alignment.Center
+                .padding(top = it.calculateTopPadding(),
+                    bottom = it.calculateBottomPadding()), contentAlignment = Alignment.Center
         ) {//TODO add padding to top
             Column(
                 modifier = Modifier
@@ -62,48 +60,66 @@ fun LoginScreen() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
 
-                var firstName by remember { mutableStateOf("") }
-                var firstNameValidation by remember { mutableStateOf(true) }
+
                 EmTextField(
-                    value = firstName,
+                    value = viewModel.firstName,
                     placeholder = stringResource(id = R.string.entry_first_name),
                     onValueChange = { newText ->
-                        firstName = newText
-                        firstNameValidation = checkValidation(newText)
+                        viewModel.firstName = newText //TODO optimize?
+                        viewModel.firstNameValidation = checkButtonColor(newText, viewModel)
                     },
-                    firstNameValidation
+                    validation = viewModel.firstNameValidation,
+                    clearField = {
+                        viewModel.firstName = ""
+                        viewModel.firstNameValidation = checkButtonColor(viewModel.firstName, viewModel)
+                    }
                 )
 
-                var secondName by remember { mutableStateOf("") }
-                var secondNameValidation by remember { mutableStateOf(true) }
                 EmTextField(
-                    value = secondName,
+                    value = viewModel.secondName,
                     placeholder = stringResource(id = R.string.entry_second_name),
                     onValueChange = { newText ->
-                        secondName = newText
-                        secondNameValidation = checkValidation(newText)
+                        viewModel.secondName = newText
+                        viewModel.secondNameValidation = checkButtonColor(newText, viewModel)
                     },
-                    validation = secondNameValidation,
+                    validation = viewModel.secondNameValidation,
+                    clearField = {
+                        viewModel.secondName = ""
+                        viewModel.secondNameValidation = checkButtonColor(viewModel.secondName, viewModel)
+                    }
                 )
 
-                var phoneNumber by remember { mutableStateOf("") }
-                var phoneNumberValidation by remember { mutableStateOf(true) }
                 EmTextFieldPhone(
-                    value = phoneNumber,
+                    value = viewModel.phoneNumber,
                     placeholder = stringResource(id = R.string.entry_phone_number),
                     onValueChange = { newText ->
-                        if (newText.length <= 10) phoneNumber = newText
-                        secondNameValidation = checkValidation(newText)
+                        if (newText.length <= 10) viewModel.phoneNumber = newText
+                        //viewModel.phoneNumberValidation = checkButtonColor(newText, viewModel) //TODO add check
+                        Log.d("GGG", "phone length ${viewModel.phoneNumber.length}")
                     },
-                    validation = phoneNumberValidation,
+                    validation = viewModel.phoneNumberValidation,
+                    clearField = {
+                        viewModel.phoneNumber = ""
+                        //viewModel.phoneNumberValidation = checkButtonColor(viewModel.phoneNumber, viewModel) //TODO add check
+                    }
                 )
 
-                ButtonEnter(true) {
-                    viewModel.userLogined = true
-                } //TODO add
+                ButtonEnter(validateStatus = viewModel.buttonActivity,
+                    buttonClick = buttonClick
+                ) //TODO add
             }
         }
     }
+}
+
+
+fun checkButtonColor(newText: String, viewModel: LoginViewModel): Boolean {
+    with(viewModel) {
+        if (firstName.isNotEmpty() && secondName.isNotEmpty() && phoneNumber.isNotEmpty() && firstNameValidation && secondNameValidation && phoneNumberValidation && phoneNumber.length == 10) {
+            buttonActivity = true
+        }
+    }
+    return checkValidation(newText)
 }
 
 private fun checkValidation(newText: String) = newText.chars()
@@ -115,5 +131,5 @@ private fun checkValidation(newText: String) = newText.chars()
 @Composable
 @Preview
 fun LoginScreenPreview() {
-    LoginScreen()
+    //LoginScreen()
 }

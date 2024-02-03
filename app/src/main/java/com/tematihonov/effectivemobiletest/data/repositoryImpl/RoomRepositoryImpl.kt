@@ -20,7 +20,7 @@ class RoomRepositoryImpl @Inject constructor(
         return effectiveMobileTestDao.selectAllFavoritesItems()
     }
 
-    override fun deleteAllFavoritesItems() {
+    override suspend fun deleteAllFavoritesItems() {
         effectiveMobileTestDao.deleteAllFavoritesItems()
     }
 
@@ -32,11 +32,15 @@ class RoomRepositoryImpl @Inject constructor(
         effectiveMobileTestDao.addUser(userEntity)
     }
 
-    override fun checkUserLogin(): UserEntity {
+    override suspend fun getUserInfo(): UserEntity {
+        return effectiveMobileTestDao.getUserInfo()
+    }
+
+    override suspend fun checkUserLogin(): Boolean {
         return effectiveMobileTestDao.checkUserLogin()
     }
 
-    override fun deleteUser() {
+    override suspend fun deleteUser() {
         effectiveMobileTestDao.deleteUser()
     }
 }

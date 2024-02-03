@@ -33,7 +33,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.utils.Resource
 
 @Composable
-fun CatalogScreen(navController: NavHostController) {
+fun CatalogScreen(navController: NavHostController) { //Fix backpress on first launch
     val viewModel = hiltViewModel<CatalogViewModel>()
     Scaffold(
         topBar = {

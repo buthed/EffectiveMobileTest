@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.tematihonov.effectivemobiletest.data.local.EffectiveMobileTestAppDatabase
 import com.tematihonov.effectivemobiletest.data.local.EffectiveMobileTestDao
+import com.tematihonov.effectivemobiletest.data.repositoryImpl.RoomRepositoryImpl
+import com.tematihonov.effectivemobiletest.domain.repository.RoomRepository
 import com.tematihonov.effectivemobiletest.utils.RoomConstants.APP_DATABASE
 import dagger.Module
 import dagger.Provides
@@ -30,5 +32,11 @@ object RoomModule {
     @Provides
     fun effectiveMobileTest(effectiveMobileTestDataBase: EffectiveMobileTestAppDatabase): EffectiveMobileTestDao {
         return effectiveMobileTestDataBase.effectiveMobileTestDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideLocalRepositoryImpl(repository: RoomRepositoryImpl): RoomRepository {
+        return repository
     }
 }

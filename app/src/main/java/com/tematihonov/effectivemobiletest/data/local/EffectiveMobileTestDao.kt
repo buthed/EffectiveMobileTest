@@ -18,7 +18,7 @@ interface EffectiveMobileTestDao {
     fun selectAllFavoritesItems(): FavoritesEntity
 
     @Query("DELETE FROM $FAVORITES_TABLE_NAME")
-    fun deleteAllFavoritesItems()
+    suspend fun deleteAllFavoritesItems()
 
     @Query("DELETE FROM $FAVORITES_TABLE_NAME WHERE id = :id")
     fun deleteItemFromFavorites(id: Int)
@@ -26,9 +26,12 @@ interface EffectiveMobileTestDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addUser(userEntity: UserEntity)
 
-    @Query("SELECT * FROM $USER_TABLE_NAME")
-    fun checkUserLogin(): UserEntity
+    @Query("SELECT * FROM $USER_TABLE_NAME WHERE userId == 1")
+    suspend fun getUserInfo(): UserEntity
+
+    @Query("SELECT (SELECT COUNT(*) FROM $USER_TABLE_NAME) == 0")
+    suspend fun checkUserLogin(): Boolean
 
     @Query("DELETE FROM $USER_TABLE_NAME")
-    fun deleteUser()
+    suspend fun deleteUser()
 }
