@@ -2,7 +2,9 @@ package com.tematihonov.effectivemobiletest.presentation.catalog
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tematihonov.effectivemobiletest.domain.models.Item
@@ -21,6 +23,10 @@ class CatalogViewModel @Inject constructor(
 
     val catalogList: MutableState<Resource<List<Item>>> = mutableStateOf(Resource.Loading())
 
+    var selectedItem: Item? by mutableStateOf(null)
+    var itemSelectedStatus by mutableStateOf(false)
+
+
     fun loadCatalogList() {
         viewModelScope.launch {
             networkUnionUseCases.getCatalogList.invoke().onStart {
@@ -34,5 +40,15 @@ class CatalogViewModel @Inject constructor(
                 Log.d("GGG", "success")
             }
         }
+    }
+
+    fun openProductPage(product: Item) {
+        selectedItem = product
+        itemSelectedStatus = true
+    }
+
+    fun closeProductPage() {
+        itemSelectedStatus = false
+        selectedItem = null
     }
 }

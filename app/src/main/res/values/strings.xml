@@ -28,6 +28,7 @@
     <string name="catalog_tag_body">Тело</string>
     <string name="catalog_tag_tan">Загар</string>
     <string name="catalog_tag_masks">Маски</string>
+    <string name="catalog_description">Описание</string>
 
     // Product page
     <string name="product_page_hide">Скрыть</string>

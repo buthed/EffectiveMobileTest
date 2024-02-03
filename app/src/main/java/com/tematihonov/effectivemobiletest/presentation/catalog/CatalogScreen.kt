@@ -1,5 +1,6 @@
 package com.tematihonov.effectivemobiletest.presentation.catalog
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,7 +55,7 @@ fun CatalogScreen(navController: NavHostController) {
             CatalogSortAndFilter()
             Spacer(modifier = Modifier.size(17.dp))
 
-            val tags = listOf("Смотреть все", "Лицо", "Тело", "Загар", "Маски")
+            val tags = listOf("Смотреть все", "Лицо", "Тело", "Загар", "Маски") //TODO refactor
             LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 items(tags) { tag ->
                     TagUnselected(tagName = tag)
@@ -73,7 +74,9 @@ fun CatalogScreen(navController: NavHostController) {
                             horizontalArrangement = Arrangement.spacedBy(7.dp)
                         ) {
                             items(catalogList) { catalogItem ->
-                                CatalogScreenItem(catalogItem)
+                                CatalogScreenItem(catalogItem) {
+                                    viewModel.openProductPage(catalogItem)
+                                }
                             }
                         }
                     }
@@ -81,6 +84,12 @@ fun CatalogScreen(navController: NavHostController) {
             }
         }
     }
+    AnimatedVisibility(viewModel.itemSelectedStatus) {
+        ProductScreen(
+            catalogItem = viewModel.selectedItem,
+        ) { viewModel.closeProductPage() }
+    }
+
     LaunchedEffect(Unit) {
         viewModel.loadCatalogList()
     }
