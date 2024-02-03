@@ -1,7 +1,7 @@
 package com.tematihonov.effectivemobiletest.data.repositoryImpl
 
 import com.tematihonov.effectivemobiletest.data.local.EffectiveMobileTestDao
-import com.tematihonov.effectivemobiletest.data.local.FavoritesEntity
+import com.tematihonov.effectivemobiletest.data.local.ProductEntity
 import com.tematihonov.effectivemobiletest.data.local.UserEntity
 import com.tematihonov.effectivemobiletest.domain.repository.RoomRepository
 import javax.inject.Inject
@@ -12,11 +12,11 @@ class RoomRepositoryImpl @Inject constructor(
     private val effectiveMobileTestDao: EffectiveMobileTestDao
 ): RoomRepository {
 
-    override suspend fun addNewFavorite(favoritesEntity: FavoritesEntity) {
-        effectiveMobileTestDao.addNewFavorite(favoritesEntity)
+    override suspend fun addNewFavorite(productEntity: ProductEntity) {
+        effectiveMobileTestDao.addNewFavorite(productEntity)
     }
 
-    override fun selectAllFavoritesItems(): FavoritesEntity {
+    override suspend fun selectAllFavoritesItems(): List<ProductEntity> {
         return effectiveMobileTestDao.selectAllFavoritesItems()
     }
 
@@ -24,7 +24,7 @@ class RoomRepositoryImpl @Inject constructor(
         effectiveMobileTestDao.deleteAllFavoritesItems()
     }
 
-    override fun deleteItemFromFavorites(id: Int) {
+    override suspend fun deleteItemFromFavorites(id: String) {
         effectiveMobileTestDao.deleteItemFromFavorites(id)
     }
 

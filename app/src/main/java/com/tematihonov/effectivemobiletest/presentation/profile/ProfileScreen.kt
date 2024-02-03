@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.presentation.app_components.ButtonExit
 import com.tematihonov.effectivemobiletest.presentation.app_components.TopAppBar
+import com.tematihonov.effectivemobiletest.presentation.favorite.FavoriteScreen
 import com.tematihonov.effectivemobiletest.presentation.profile.components.CommonTab
 import com.tematihonov.effectivemobiletest.presentation.profile.components.FavoriteTab
 import com.tematihonov.effectivemobiletest.presentation.profile.components.UserTab
@@ -56,7 +58,9 @@ fun ProfileScreen(navController: NavHostController) {
             Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
                 UserTab(viewModel.currentUser)
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    FavoriteTab() //TODO add click
+                    FavoriteTab(viewModel.favoriteList.size) {
+                        viewModel.favoriteScreenVisibility = true
+                    } //TODO add click
                     CommonTab(
                         R.drawable.icon_shop,
                         stringResource(id = R.string.personal_account_shops)
@@ -81,6 +85,9 @@ fun ProfileScreen(navController: NavHostController) {
             }
         }
         Box(modifier = Modifier.padding(paddingValues = it))
+    }
+    AnimatedVisibility(visible = viewModel.favoriteScreenVisibility) {
+        FavoriteScreen(viewModel)
     }
 }
 

@@ -53,7 +53,7 @@ fun FavoriteTopAppBar(backClick: () -> Unit) {
         navigationIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.icon_left_arrow), contentDescription = "",
-                modifier = Modifier.clickable(onClick = backClick)
+                modifier = Modifier.clickable(onClick = backClick).padding(start = 16.dp)
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colors.bgWhite)

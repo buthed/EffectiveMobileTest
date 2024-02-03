@@ -1,17 +1,17 @@
 package com.tematihonov.effectivemobiletest.domain.repository
 
-import com.tematihonov.effectivemobiletest.data.local.FavoritesEntity
+import com.tematihonov.effectivemobiletest.data.local.ProductEntity
 import com.tematihonov.effectivemobiletest.data.local.UserEntity
 
 interface RoomRepository {
 
-    suspend fun addNewFavorite(favoritesEntity: FavoritesEntity)
+    suspend fun addNewFavorite(productEntity: ProductEntity)
 
-    fun selectAllFavoritesItems(): FavoritesEntity
+    suspend fun selectAllFavoritesItems(): List<ProductEntity>
 
     suspend fun deleteAllFavoritesItems()
 
-    fun deleteItemFromFavorites(id: Int)
+    suspend fun deleteItemFromFavorites(id: String)
 
     suspend fun addUser(userEntity: UserEntity)
 

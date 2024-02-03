@@ -2,6 +2,7 @@ package com.tematihonov.effectivemobiletest.presentation.profile.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -67,12 +68,13 @@ fun UserTab(currentUser: UserEntity?) {
 }
 
 @Composable
-fun FavoriteTab() {
+fun FavoriteTab(favoriteListSize: Int, toFavoritesClick: () -> Unit) {
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .background(MaterialTheme.colors.bgLightGray),
+            .background(MaterialTheme.colors.bgLightGray)
+            .clickable(onClick = toFavoritesClick),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -93,10 +95,10 @@ fun FavoriteTab() {
                     style = Typography.titleSmall
                 )
                 Text(
-                    text = "1 товар",
+                    text = "$favoriteListSize товар", //TODO parser qty -> string
                     style = Typography.bodySmall,
                     color = MaterialTheme.colors.textGrey
-                ) //TODO add
+                )
             }
         }
         Icon(
@@ -109,7 +111,7 @@ fun FavoriteTab() {
 }
 
 @Composable
-fun CommonTab(icon: Int, title: String) { //TODO add image colors
+fun CommonTab(icon: Int, title: String) {
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
@@ -125,9 +127,9 @@ fun CommonTab(icon: Int, title: String) { //TODO add image colors
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
+            Image(
                 painter = painterResource(id = icon), contentDescription = "",
-                modifier = Modifier.size(24.dp), tint = MaterialTheme.colors.elementDarkGray
+                modifier = Modifier.size(24.dp)
             )
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Text(text = title, style = Typography.titleSmall)
@@ -151,7 +153,7 @@ fun UserTabPreview() {
 @Composable
 @Preview
 fun FavoriteTabPreview() {
-    FavoriteTab()
+    FavoriteTab(2) {}
 }
 
 @Composable

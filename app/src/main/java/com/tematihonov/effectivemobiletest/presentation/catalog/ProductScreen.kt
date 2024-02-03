@@ -2,6 +2,7 @@ package com.tematihonov.effectivemobiletest.presentation.catalog
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +41,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun ProductScreen(catalogItem: Item?, backClick: () -> Unit) { //TODO fix backpress action
+fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButton: () -> Unit, backClick: () -> Unit) { //TODO fix backpress action
     Scaffold(
         topBar = {
             CatalogItemTopAppBar(backClick = backClick)
@@ -79,8 +80,12 @@ fun ProductScreen(catalogItem: Item?, backClick: () -> Unit) { //TODO fix backpr
                                     .height(360.dp)
                             ) //TODO add carousel
                             Image(
-                                painter = painterResource(id = R.drawable.icon_heart__active),
-                                contentDescription = "", modifier = Modifier.size(24.dp)
+                                painter = painterResource(id =
+                                    when (productInFavorites) {
+                                        true -> R.drawable.icon_heart_active
+                                        false -> R.drawable.icon_heart
+                                    }),
+                                contentDescription = "", modifier = Modifier.size(24.dp).clickable(onClick = favoriteButton)
                             ) //TODO add room
                         }
                         Box(modifier = Modifier.padding(bottom = 16.dp)) {

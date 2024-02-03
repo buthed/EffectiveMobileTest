@@ -1,5 +1,6 @@
 package com.tematihonov.effectivemobiletest.presentation.catalog.components
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -41,7 +42,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun CatalogScreenItem(catalogItem: Item, selectProduct: () -> Unit) {
+fun CatalogScreenItem(catalogItem: Item, productInFavorites: Boolean, favoriteButton: () -> Unit, selectProduct: () -> Unit) {
     Card(
         modifier = Modifier
             .background(MaterialTheme.colors.bgWhite)
@@ -70,8 +71,12 @@ fun CatalogScreenItem(catalogItem: Item, selectProduct: () -> Unit) {
                     .width(168.dp), contentAlignment = Alignment.TopEnd
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.icon_heart), contentDescription = "", //TODO add favorites
-                    modifier = Modifier.padding(6.dp)
+                    painter = painterResource(id =
+                        when(productInFavorites) {
+                            true -> R.drawable.icon_heart_active
+                            false -> R.drawable.icon_heart
+                        }), contentDescription = "", //TODO add favorites
+                    modifier = Modifier.padding(6.dp).clickable(onClick = favoriteButton)
                 )
             }
         }

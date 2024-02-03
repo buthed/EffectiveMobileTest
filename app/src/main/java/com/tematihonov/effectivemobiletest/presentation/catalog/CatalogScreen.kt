@@ -74,7 +74,9 @@ fun CatalogScreen(navController: NavHostController) { //Fix backpress on first l
                             horizontalArrangement = Arrangement.spacedBy(7.dp)
                         ) {
                             items(catalogList) { catalogItem ->
-                                CatalogScreenItem(catalogItem) {
+                                CatalogScreenItem(catalogItem = catalogItem,
+                                    productInFavorites = viewModel.checkProductForFavoriteStatus(catalogItem),
+                                    favoriteButton = { viewModel.addDeleteToFavorites(catalogItem) }) {
                                     viewModel.openProductPage(catalogItem)
                                 }
                             }
@@ -87,6 +89,8 @@ fun CatalogScreen(navController: NavHostController) { //Fix backpress on first l
     AnimatedVisibility(viewModel.itemSelectedStatus) {
         ProductScreen(
             catalogItem = viewModel.selectedItem,
+            productInFavorites = viewModel.selectedItem?.let { viewModel.checkProductForFavoriteStatus(it) } == true,
+            favoriteButton = { viewModel.selectedItem?.let { viewModel.addDeleteToFavorites(it) } }
         ) { viewModel.closeProductPage() }
     }
 

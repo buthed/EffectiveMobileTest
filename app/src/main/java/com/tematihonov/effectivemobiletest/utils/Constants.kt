@@ -8,5 +8,5 @@ object RetrofitConstants {
 object RoomConstants {
     const val APP_DATABASE = "effective_mobile_test_app_database"
     const val USER_TABLE_NAME = "user_table"
-    const val FAVORITES_TABLE_NAME = "favorites_table"
+    const val PRODUCT_TABLE_NAME = "product_table"
 }
