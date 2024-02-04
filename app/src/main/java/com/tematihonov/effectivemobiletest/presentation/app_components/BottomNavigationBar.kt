@@ -14,19 +14,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.tematihonov.effectivemobiletest.navigation.BottomNavItem
+import com.tematihonov.effectivemobiletest.navigation.Screen
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
 fun BottomNavigationBar(
-    items: List<BottomNavItem>,
+    items: List<Screen>,
     navController: NavController,
     modifier: Modifier = Modifier,
-    onItemClick: (BottomNavItem) -> Unit,
+    onItemClick: (Screen) -> Unit,
 ) {
     val backStackEntry = navController.currentBackStackEntryAsState()
 
@@ -51,7 +52,7 @@ fun BottomNavigationBar(
                             modifier = Modifier.size(24.dp),
                             tint = if (selected) MaterialTheme.colors.textPink else MaterialTheme.colors.textDarkGrey
                         )
-                        Text(text = item.name, style = Typography.labelMedium,
+                        Text(text = stringResource(id = item.name), style = Typography.labelMedium,
                             color = if (selected) MaterialTheme.colors.textPink else MaterialTheme.colors.textDarkGrey)
                     }
                 },

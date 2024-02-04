@@ -16,12 +16,12 @@ import com.tematihonov.effectivemobiletest.presentation.promotions.PromotionsScr
 fun EffectiveMTestNavHost(navController: NavHostController, paddingValues: PaddingValues) {
     NavHost(
         navController = navController,
-        startDestination = "catalog"
+        startDestination = Screen.Catalog.route
     ) {
-        composable("main") { MainScreen(navController) }
-        composable("catalog") { CatalogScreen(navController) }
-        composable("basket") { BasketScreen(navController) }
-        composable("promotions") { PromotionsScreen(navController) }
-        composable("profile") { ProfileScreen(navController) }
+        composable(Screen.Main.route) { MainScreen(navController) }
+        composable(Screen.Catalog.route) { CatalogScreen(navController) }
+        composable(Screen.Basket.route) { BasketScreen(navController) }
+        composable(Screen.Promotions.route) { PromotionsScreen(navController) }
+        composable(Screen.Profile.route) { ProfileScreen(navController) }
     }
-} //TODO add screens const
+}
