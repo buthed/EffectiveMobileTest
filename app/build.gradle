@@ -50,41 +50,43 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.0'
-    implementation platform('androidx.compose:compose-bom:2023.08.00')
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-graphics'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
+    implementation Deps.core
+    implementation platform(Deps.kotlinBomPlatform)
+    implementation LifecycleScope.lifecycleRuntime
+    implementation JetpackCompose.composeActivity
+    implementation platform(JetpackCompose.composeBomPlatform)
+    implementation JetpackCompose.composeUi
+    implementation JetpackCompose.composeGraphics
+    implementation JetpackCompose.composeUiToolingPreview
 
-    //Pager
-    implementation "com.google.accompanist:accompanist-pager:0.20.0"
+    // Material
+    implementation JetpackCompose.composeMaterial3
+
+    // Pager
+    implementation GoogleAccompanist.pager
 
     // Navigation
-    implementation 'androidx.navigation:navigation-compose:2.6.0'
+    implementation JetpackCompose.composeNavigation
 
     // Hilt
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+    implementation(DaggerHilt.hiltAndroid)
+    kapt(DaggerHilt.hiltCompiler)
+    implementation DaggerHilt.hiltNavigationCompose
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation Retrofit2.retrofit2
+    implementation Retrofit2.retrofit2Converter
 
     // Room
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    implementation Room.roomRuntime
+    implementation Room.roomKtx
+    kapt(Room.roomCompiler)
 
     // Tests
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation platform('androidx.compose:compose-bom:2023.08.00')
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+    testImplementation TestImplementation.junit
+    androidTestImplementation AndroidTestImplementation.junit
+    androidTestImplementation AndroidTestImplementation.espresso
+    androidTestImplementation AndroidTestImplementation.junit4
+    debugImplementation DebugImplementation.toolingUi
+    debugImplementation DebugImplementation.manifestTest
 }

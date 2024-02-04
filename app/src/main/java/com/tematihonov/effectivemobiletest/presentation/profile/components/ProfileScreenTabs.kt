@@ -72,13 +72,12 @@ fun UserTab(currentUser: UserEntity?) {
 }
 
 fun formatPhoneNumber(input: String): String {
-    val formattedNumber = "+7 ${input.substring(0, 3)} ${input.substring(3, 6)} ${
+    return "+7 ${input.substring(0, 3)} ${input.substring(3, 6)} ${
         input.substring(
             6,
             8
         )
     } ${input.substring(8, 10)}"
-    return formattedNumber
 } //TODO Move?
 
 @Composable
