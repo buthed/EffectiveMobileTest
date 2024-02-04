@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -27,8 +25,8 @@ import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.presentation.app_components.ProgressIndicator
 import com.tematihonov.effectivemobiletest.presentation.app_components.TopAppBar
 import com.tematihonov.effectivemobiletest.presentation.catalog.components.CatalogScreenItem
+import com.tematihonov.effectivemobiletest.presentation.catalog.components.CatalogScreenTags
 import com.tematihonov.effectivemobiletest.presentation.catalog.components.CatalogSortAndFilter
-import com.tematihonov.effectivemobiletest.presentation.catalog.components.TagUnselected
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.utils.Resource
 
@@ -52,20 +50,20 @@ fun CatalogScreen(navController: NavHostController) { //Fix backpress on first l
                 )
                 .background(MaterialTheme.colors.bgWhite)
         ) {
-            CatalogSortAndFilter()
+            CatalogSortAndFilter(viewModel.selectedSort) { viewModel.sortCatalog(it) }
             Spacer(modifier = Modifier.size(17.dp))
 
-            val tags = listOf("Смотреть все", "Лицо", "Тело", "Загар", "Маски") //TODO refactor
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                items(tags) { tag ->
-                    TagUnselected(tagName = tag)
-                }
+            CatalogScreenTags(viewModel.selectedTag) {
+                viewModel.filterCatalogByTag(it)
             }
             Spacer(modifier = Modifier.size(32.dp))
 
             when (val catalogListResponse = viewModel.catalogList.value) {
-                is Resource.Error -> { }
-                is Resource.Loading -> { ProgressIndicator() }
+                is Resource.Error -> {}
+                is Resource.Loading -> {
+                    ProgressIndicator()
+                }
+
                 is Resource.Success -> {
                     catalogListResponse.data?.let { catalogList ->
                         LazyVerticalGrid(
@@ -75,7 +73,9 @@ fun CatalogScreen(navController: NavHostController) { //Fix backpress on first l
                         ) {
                             items(catalogList) { catalogItem ->
                                 CatalogScreenItem(catalogItem = catalogItem,
-                                    productInFavorites = viewModel.checkProductForFavoriteStatus(catalogItem),
+                                    productInFavorites = viewModel.checkProductForFavoriteStatus(
+                                        catalogItem
+                                    ),
                                     favoriteButton = { viewModel.addDeleteToFavorites(catalogItem) }) {
                                     viewModel.openProductPage(catalogItem)
                                 }
@@ -89,7 +89,11 @@ fun CatalogScreen(navController: NavHostController) { //Fix backpress on first l
     AnimatedVisibility(viewModel.itemSelectedStatus) {
         ProductScreen(
             catalogItem = viewModel.selectedItem,
-            productInFavorites = viewModel.selectedItem?.let { viewModel.checkProductForFavoriteStatus(it) } == true,
+            productInFavorites = viewModel.selectedItem?.let {
+                viewModel.checkProductForFavoriteStatus(
+                    it
+                )
+            } == true,
             favoriteButton = { viewModel.selectedItem?.let { viewModel.addDeleteToFavorites(it) } }
         ) { viewModel.closeProductPage() }
     }
