@@ -39,7 +39,7 @@ fun EmTextField(
     validation: Boolean,
     clearField: () -> Unit,
 ) {
-    var containerColor = when (validation) {
+    val containerColor = when (validation) {
         true -> MaterialTheme.colors.bgLightGray
         false -> MaterialTheme.colors.bgLightPink
     }
@@ -122,7 +122,6 @@ fun EmTextFieldPhone(
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
-    validation: Boolean,
     clearField: () -> Unit,
 ) {
 
@@ -239,7 +238,6 @@ fun EmTextFieldPhonePreview() {
         stringResource(id = R.string.entry_phone_number),
         stringResource(id = R.string.entry_phone_number),
         { },
-        false,
         {}
     )
 }

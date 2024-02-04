@@ -23,7 +23,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
+import com.tematihonov.effectivemobiletest.domain.models.Feedback
+import com.tematihonov.effectivemobiletest.domain.models.Info
 import com.tematihonov.effectivemobiletest.domain.models.Item
+import com.tematihonov.effectivemobiletest.domain.models.Price
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
@@ -60,7 +63,7 @@ fun CompoundPart(catalogItem: Item) { // TODO check point 5.27 (hide - details v
         Spacer(modifier = Modifier.size(10.dp))
         Text(
             text = stringResource(
-                id = when (partVisibility) { //TODO add
+                id = when (partVisibility) {
                     true -> R.string.product_page_hide
                     false -> R.string.product_page_details
                 }
@@ -73,5 +76,24 @@ fun CompoundPart(catalogItem: Item) { // TODO check point 5.27 (hide - details v
 @Preview
 @Composable
 fun CompoundPartPreview() {
-    //CompoundPart(catalogItem)
+    val catalogItem = Item(
+        available = 100,
+        description = "Лосьон для тела `ESFOLIO` COENZYME Q10 Увлажняющий содержит минеральную воду и соду, способствует глубокому очищению пор от различных загрязнений, контроллирует работу сальных желез, сужает поры. Обладает мягким антиептическим действием, не пересушивает кожу. Минеральная вода тонизирует и смягчает кожу.",
+        feedback = Feedback(
+            count = 51,
+            rating = 4.5
+        ),
+        id = "cbf0c984-7c6c-4ada-82da-e29dc698bb50",
+        info = listOf(
+            Info(title = "Артикул товара", value = "441187"),
+            Info(title = "Область использования", value = "Тело"),
+            Info(title = "Страна производства", value = "Франция")
+        ),
+        ingredients = "Glycerin Palmitic Acid, Stearic Acid, Capric Acid, Sodium Benzoate",
+        price = Price(price = "899", discount = 39, priceWithDiscount = "549", unit = "₽"),
+        subtitle = "Лосьон для тела `ESFOLIO` COENZYME Q10 Увлажняющий 500 мл",
+        tags = listOf("face"),
+        title = "ESFOLIO"
+    )
+    CompoundPart(catalogItem)
 }

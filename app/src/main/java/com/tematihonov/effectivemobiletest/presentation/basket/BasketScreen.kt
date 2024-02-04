@@ -29,7 +29,7 @@ fun BasketScreen(navController: NavHostController) {
                 .padding(paddingValues = it),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "BasketScreen")
+            Text(text = stringResource(id = R.string.nav_basket))
         }
     }
 }

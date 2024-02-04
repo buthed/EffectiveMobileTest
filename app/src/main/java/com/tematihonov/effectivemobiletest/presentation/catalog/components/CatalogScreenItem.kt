@@ -177,5 +177,10 @@ fun CatalogScreenItemPreview() {
         tags = listOf("face"),
         title = "ESFOLIO"
     )
-    //CatalogScreenItem(catalogItem)
+    CatalogScreenItem(
+        catalogItem = catalogItem,
+        productInFavorites = true,
+        favoriteButton = { },
+        selectProduct = { },
+    )
 }

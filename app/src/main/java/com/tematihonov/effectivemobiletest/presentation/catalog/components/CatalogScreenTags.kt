@@ -112,5 +112,5 @@ fun TagSelectedPreview() {
 @Composable
 @Preview
 fun CatalogScreenTagsPreview() {
-    //CatalogScreenTags(viewModel.selectedTag)
+    CatalogScreenTags(selectedTag = "") {}
 }

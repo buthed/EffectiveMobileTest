@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -29,11 +30,14 @@ import com.tematihonov.effectivemobiletest.presentation.profile.components.Commo
 import com.tematihonov.effectivemobiletest.presentation.profile.components.FavoriteTab
 import com.tematihonov.effectivemobiletest.presentation.profile.components.UserTab
 import com.tematihonov.effectivemobiletest.ui.colors
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val context = LocalContext.current
+    val coroutine = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -77,8 +81,11 @@ fun ProfileScreen(navController: NavHostController) {
                 }
             }
             ButtonExit() {
-                viewModel.deleteDatabase(navController)
-                restartApp(context)
+                coroutine.launch {
+                    viewModel.deleteDatabase()
+                    delay(500)
+                    restartApp(context)
+                }
             }
         }
         Box(modifier = Modifier.padding(paddingValues = it))

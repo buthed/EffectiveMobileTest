@@ -1,8 +1,6 @@
 package com.tematihonov.effectivemobiletest.data.local
 
 import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.tematihonov.effectivemobiletest.domain.models.Feedback
 import com.tematihonov.effectivemobiletest.domain.models.Info
 import com.tematihonov.effectivemobiletest.domain.models.Price

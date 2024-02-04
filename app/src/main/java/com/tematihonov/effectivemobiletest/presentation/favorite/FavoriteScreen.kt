@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.tematihonov.effectivemobiletest.data.mapper.toItem
 import com.tematihonov.effectivemobiletest.presentation.app_components.FavoriteTopAppBar
 import com.tematihonov.effectivemobiletest.presentation.catalog.components.CatalogScreenItem
@@ -56,7 +57,6 @@ fun FavoriteScreen(viewModel: ProfileViewModel) {
                         }
                     }
                 }
-
                 false -> {}
             }
 
@@ -67,5 +67,6 @@ fun FavoriteScreen(viewModel: ProfileViewModel) {
 @Composable
 @Preview
 fun FavoriteScreenPreview() {
-    //FavoriteScreen(viewModel)
+    val viewModel = hiltViewModel<ProfileViewModel>()
+    FavoriteScreen(viewModel)
 }

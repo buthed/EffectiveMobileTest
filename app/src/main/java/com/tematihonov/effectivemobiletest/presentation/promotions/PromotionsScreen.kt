@@ -29,7 +29,7 @@ fun PromotionsScreen(navController: NavHostController) {
                 .padding(paddingValues = it),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "PromotionsScreen")
+            Text(text = stringResource(id = R.string.nav_promotions))
         }
     }
 }

@@ -29,16 +29,17 @@ fun GoodsBrandsSlider(goodsSelected: Boolean, selectCategory: (Boolean) -> Unit)
             .background(MaterialTheme.colors.bgLightGray)
             .padding(3.dp)
     ) {
-        Box(modifier = Modifier
-            .weight(1f)
-            .clip(RoundedCornerShape(8.dp))
-            .background(
-                when (goodsSelected) {
-                    true -> MaterialTheme.colors.bgWhite
-                    false -> MaterialTheme.colors.bgLightGray
-                }
-            )
-            .clickable(onClick = { selectCategory(true) })
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(8.dp))
+                .background(
+                    when (goodsSelected) {
+                        true -> MaterialTheme.colors.bgWhite
+                        false -> MaterialTheme.colors.bgLightGray
+                    }
+                )
+                .clickable(onClick = { selectCategory(true) })
         ) {
             Text(
                 text = stringResource(id = R.string.favorite_goods),
@@ -47,20 +48,23 @@ fun GoodsBrandsSlider(goodsSelected: Boolean, selectCategory: (Boolean) -> Unit)
                     true -> MaterialTheme.colors.textBlack
                     false -> MaterialTheme.colors.textGrey
                 },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 9.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 9.dp),
                 textAlign = TextAlign.Center
             )
         }
-        Box(modifier = Modifier
-            .weight(1f)
-            .clip(RoundedCornerShape(8.dp))
-            .background(
-                when (goodsSelected) {
-                    true -> MaterialTheme.colors.bgLightGray
-                    false -> MaterialTheme.colors.bgWhite
-                }
-            )
-            .clickable(onClick = { selectCategory(false) })
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .clip(RoundedCornerShape(8.dp))
+                .background(
+                    when (goodsSelected) {
+                        true -> MaterialTheme.colors.bgLightGray
+                        false -> MaterialTheme.colors.bgWhite
+                    }
+                )
+                .clickable(onClick = { selectCategory(false) })
         ) {
             Text(
                 text = stringResource(id = R.string.favorite_brands),
@@ -69,7 +73,9 @@ fun GoodsBrandsSlider(goodsSelected: Boolean, selectCategory: (Boolean) -> Unit)
                     true -> MaterialTheme.colors.textGrey
                     false -> MaterialTheme.colors.textBlack
                 },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 9.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 9.dp),
                 textAlign = TextAlign.Center
             )
         }

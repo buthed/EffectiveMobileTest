@@ -28,7 +28,9 @@ fun HomeScreen(navController: NavHostController) {
 
     when (viewModel.userLoginedChecking) {
 
-        true -> { ProgressIndicator() }
+        true -> {
+            ProgressIndicator()
+        }
 
         false -> {
             when (viewModel.userLogined) {
@@ -49,7 +51,9 @@ fun HomeScreen(navController: NavHostController) {
                     }
                 }
 
-                false -> { LoginScreen() { viewModel.userLogin() } }
+                false -> {
+                    LoginScreen() { viewModel.userLogin() }
+                }
             }
         }
     }

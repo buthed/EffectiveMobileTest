@@ -7,7 +7,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import com.tematihonov.effectivemobiletest.R
 
-// Set of Material typography styles to start with
 val Typography = Typography(
     // Large title 1
     titleLarge = TextStyle(

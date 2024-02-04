@@ -1,6 +1,5 @@
 package com.tematihonov.effectivemobiletest.presentation.app_components
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

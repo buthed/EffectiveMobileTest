@@ -13,8 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val roomRepository: RoomRepository
-): ViewModel() {
+    private val roomRepository: RoomRepository,
+) : ViewModel() {
 
     var userLogined by mutableStateOf(false)
     var userLoginedChecking by mutableStateOf(true)
@@ -23,7 +23,7 @@ class LoginViewModel @Inject constructor(
 
     var firstName by mutableStateOf("")
     var firstNameValidation by mutableStateOf(true)
-    var secondName  by mutableStateOf("")
+    var secondName by mutableStateOf("")
     var secondNameValidation by mutableStateOf(true)
     var phoneNumber by mutableStateOf("")
     var phoneNumberValidation by mutableStateOf(true)
@@ -34,9 +34,7 @@ class LoginViewModel @Inject constructor(
 
     fun testUserLogin() {
         viewModelScope.launch {
-            if (roomRepository.checkUserLogin()) {
-                userLogined = false
-            } else userLogined = true
+            userLogined = !roomRepository.checkUserLogin()
             userLoginedChecking = false
         }
     }
@@ -58,6 +56,7 @@ class LoginViewModel @Inject constructor(
                 userLogined = true
                 return true
             }
+
             false -> return false
         }
     }

@@ -53,7 +53,9 @@ fun FavoriteTopAppBar(backClick: () -> Unit) {
         navigationIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.icon_left_arrow), contentDescription = "",
-                modifier = Modifier.clickable(onClick = backClick).padding(start = 16.dp)
+                modifier = Modifier
+                    .clickable(onClick = backClick)
+                    .padding(start = 16.dp)
             )
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colors.bgWhite)
@@ -67,15 +69,19 @@ fun CatalogItemTopAppBar(backClick: () -> Unit) {
         navigationIcon = {
             Box(modifier = Modifier.padding(start = 15.dp)) {
                 Icon(
-                    painter = painterResource(id = R.drawable.icon_left_arrow), contentDescription = "",
+                    painter = painterResource(id = R.drawable.icon_left_arrow),
+                    contentDescription = "",
                     modifier = Modifier.clickable(onClick = backClick)
                 )
             }
         },
         actions = {
             IconButton(onClick = {}) {
-                Icon(painter = painterResource(id = R.drawable.icon_log_out), contentDescription = "",
-                    modifier = Modifier.rotate(270f))
+                Icon(
+                    painter = painterResource(id = R.drawable.icon_log_out),
+                    contentDescription = "",
+                    modifier = Modifier.rotate(270f)
+                )
             }
         },
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colors.bgWhite)

@@ -18,15 +18,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val roomRepository: RoomRepository
-): ViewModel() {
+    private val roomRepository: RoomRepository,
+) : ViewModel() {
 
     var currentUser: UserEntity? by mutableStateOf(null)
     var favoriteList by mutableStateOf(emptyList<ProductEntity>())
 
     var favoriteScreenVisibility by mutableStateOf(false)
     var favoriteScreenGoodsSelected by mutableStateOf(true)
-
 
     init {
         getUserInfo()
@@ -53,11 +52,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun deleteDatabase(navController: NavHostController) {
+    fun deleteDatabase() {
         viewModelScope.launch {
-            roomRepository.deleteUser()
             roomRepository.deleteAllFavoritesItems()
-            navController.popBackStack("main", false)
+            roomRepository.deleteUser()
         }
     }
 

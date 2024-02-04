@@ -52,8 +52,10 @@ fun BottomNavigationBar(
                             modifier = Modifier.size(24.dp),
                             tint = if (selected) MaterialTheme.colors.textPink else MaterialTheme.colors.textDarkGrey
                         )
-                        Text(text = stringResource(id = item.name), style = Typography.labelMedium,
-                            color = if (selected) MaterialTheme.colors.textPink else MaterialTheme.colors.textDarkGrey)
+                        Text(
+                            text = stringResource(id = item.name), style = Typography.labelMedium,
+                            color = if (selected) MaterialTheme.colors.textPink else MaterialTheme.colors.textDarkGrey
+                        )
                     }
                 },
                 colors = NavigationBarItemDefaults.colors(

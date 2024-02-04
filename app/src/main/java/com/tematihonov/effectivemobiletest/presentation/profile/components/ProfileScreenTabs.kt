@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.data.local.UserEntity
+import com.tematihonov.effectivemobiletest.mapper.formatPhoneNumber
 import com.tematihonov.effectivemobiletest.mapper.goodsMapper
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
@@ -62,7 +63,6 @@ fun UserTab(currentUser: UserEntity?) {
                     )
                 }
             }
-
         }
         Icon(
             painter = painterResource(id = R.drawable.icon_log_out), contentDescription = "",
@@ -70,15 +70,6 @@ fun UserTab(currentUser: UserEntity?) {
         )
     }
 }
-
-fun formatPhoneNumber(input: String): String {
-    return "+7 ${input.substring(0, 3)} ${input.substring(3, 6)} ${
-        input.substring(
-            6,
-            8
-        )
-    } ${input.substring(8, 10)}"
-} //TODO Move?
 
 @Composable
 fun FavoriteTab(favoriteListSize: Int, toFavoritesClick: () -> Unit) {

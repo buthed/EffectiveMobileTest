@@ -31,7 +31,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.utils.Resource
 
 @Composable
-fun CatalogScreen(navController: NavHostController) { //Fix backpress on first launch
+fun CatalogScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<CatalogViewModel>()
     Scaffold(
         topBar = {
@@ -59,11 +59,8 @@ fun CatalogScreen(navController: NavHostController) { //Fix backpress on first l
             Spacer(modifier = Modifier.size(32.dp))
 
             when (val catalogListResponse = viewModel.catalogList.value) {
-                is Resource.Error -> {}
-                is Resource.Loading -> {
-                    ProgressIndicator()
-                }
-
+                is Resource.Error -> {  }
+                is Resource.Loading -> { ProgressIndicator() }
                 is Resource.Success -> {
                     catalogListResponse.data?.let { catalogList ->
                         LazyVerticalGrid(

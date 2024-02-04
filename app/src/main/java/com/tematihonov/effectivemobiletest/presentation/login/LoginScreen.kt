@@ -100,14 +100,13 @@ fun LoginScreen(buttonClick: () -> Unit) {
                     value = viewModel.phoneNumber,
                     placeholder = stringResource(id = R.string.entry_phone_number),
                     onValueChange = { newText ->
-                        if (viewModel.phoneNumber.length == 0 && newText == "7") {
+                        if (viewModel.phoneNumber.isEmpty() && newText == "7") {
                         } else {
                             if (newText.length <= 10) viewModel.phoneNumber = newText
                         }
                         viewModel.phoneNumberValidation =
                             checkButtonColor(viewModel.phoneNumber, viewModel, isNumber = true)
                     },
-                    validation = viewModel.phoneNumberValidation,
                     clearField = {
                         viewModel.phoneNumber = ""
                         viewModel.phoneNumberValidation = checkButtonColor(
@@ -144,9 +143,7 @@ fun checkButtonColor(
             if (newText.length == 10) phoneNumberValidation = checkPhoneNValidation(newText)
         }
         buttonActivity =
-            if (firstName.isNotEmpty() && secondName.isNotEmpty() && phoneNumber.isNotEmpty() && firstNameValidation && secondNameValidation && phoneNumberValidation && phoneNumber.length == 10) {
-                true
-            } else false
+            firstName.isNotEmpty() && secondName.isNotEmpty() && phoneNumber.isNotEmpty() && firstNameValidation && secondNameValidation && phoneNumberValidation && phoneNumber.length == 10
     }
     if (isNumber) {
         checkPhoneNValidation(newText)
@@ -173,5 +170,5 @@ private fun checkPhoneNValidation(phoneNumber: String): Boolean {
 @Composable
 @Preview
 fun LoginScreenPreview() {
-    //LoginScreen()
+    LoginScreen() {}
 }

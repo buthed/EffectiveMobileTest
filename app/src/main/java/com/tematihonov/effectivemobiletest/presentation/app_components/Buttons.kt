@@ -111,25 +111,20 @@ fun ButtonAddToBasket(catalogItemPrice: Price) {
     }
 }
 
-
 @Composable
 @Preview
 fun ButtonEnterPreview() {
-    ButtonEnter(true) {
-
-    }
+    ButtonEnter(true) {}
 }
 
 @Composable
 @Preview
 fun ButtonExitPreview() {
-    ButtonExit() {
-
-    }
+    ButtonExit() {}
 }
 
 @Composable
 @Preview
 fun ButtonAddToBasketPreview() {
-    //ButtonAddToBasket()
+    ButtonAddToBasket(Price(35,"749","498", "₽"))
 }

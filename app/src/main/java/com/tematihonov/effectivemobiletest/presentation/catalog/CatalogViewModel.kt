@@ -1,6 +1,5 @@
 package com.tematihonov.effectivemobiletest.presentation.catalog
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +25,7 @@ class CatalogViewModel @Inject constructor(
 ) : ViewModel() {
 
     val catalogList: MutableState<Resource<List<Item>>> = mutableStateOf(Resource.Loading())
-    var favoriteList by mutableStateOf(emptyList<ProductEntity>())
+    private var favoriteList by mutableStateOf(emptyList<ProductEntity>())
 
     var selectedSort by mutableStateOf("По популярности")
 
@@ -46,7 +45,6 @@ class CatalogViewModel @Inject constructor(
 
     fun filterCatalogByTag(newSelectedTag: String) {
         selectedTag = newSelectedTag
-        Log.d("GGG", "currentTag is $newSelectedTag")
         loadCatalogList()
     }
 
@@ -61,14 +59,14 @@ class CatalogViewModel @Inject constructor(
     }
 
     fun loadCatalogList() {
-        var filterTag = when (selectedTag) {
+        val filterTag = when (selectedTag) {
             "Лицо" -> "face"
             "Тело" -> "body"
             "Загар" -> "suntan"
             "Маски" -> "mask"
             else -> ""
         }
-        var sortTag = when (selectedSort) {
+        val sortTag = when (selectedSort) {
             "По увеличению" -> 2
             "По уменьшению" -> 3
             else -> 1
