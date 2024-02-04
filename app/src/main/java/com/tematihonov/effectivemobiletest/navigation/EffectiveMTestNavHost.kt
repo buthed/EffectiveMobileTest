@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tematihonov.effectivemobiletest.presentation.basket.BasketScreen
 import com.tematihonov.effectivemobiletest.presentation.catalog.CatalogScreen
-import com.tematihonov.effectivemobiletest.presentation.favorite.FavoriteScreen
 import com.tematihonov.effectivemobiletest.presentation.main.MainScreen
 import com.tematihonov.effectivemobiletest.presentation.profile.ProfileScreen
 import com.tematihonov.effectivemobiletest.presentation.promotions.PromotionsScreen

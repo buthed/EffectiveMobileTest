@@ -77,7 +77,7 @@ class CatalogViewModel @Inject constructor(
             }.catch {
                 catalogList.value = Resource.Error(it.message!!)
             }.collect {
-                var newList = arrayListOf<Item>()
+                val newList = arrayListOf<Item>()
                 it.items.forEach { item ->
                     when (filterTag.isNotEmpty()) {
                         true -> if (item.tags.contains(filterTag)) newList.add(item)
