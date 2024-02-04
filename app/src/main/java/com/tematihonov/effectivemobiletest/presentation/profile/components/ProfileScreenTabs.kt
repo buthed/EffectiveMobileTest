@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.data.local.UserEntity
+import com.tematihonov.effectivemobiletest.mapper.goodsMapper
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
@@ -50,12 +51,15 @@ fun UserTab(currentUser: UserEntity?) {
             )
             if (currentUser != null) {
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Text(text = "${currentUser.firstName} ${currentUser.secondName}", style = Typography.titleSmall) //TODO add
                     Text(
-                        text = "+7 993 877 44 02",
+                        text = "${currentUser.firstName} ${currentUser.secondName}",
+                        style = Typography.titleSmall
+                    )
+                    Text(
+                        text = formatPhoneNumber(currentUser.phoneNumber),
                         style = Typography.bodySmall,
                         color = MaterialTheme.colors.textGrey
-                    ) //TODO add
+                    )
                 }
             }
 
@@ -66,6 +70,16 @@ fun UserTab(currentUser: UserEntity?) {
         )
     }
 }
+
+fun formatPhoneNumber(input: String): String {
+    val formattedNumber = "+7 ${input.substring(0, 3)} ${input.substring(3, 6)} ${
+        input.substring(
+            6,
+            8
+        )
+    } ${input.substring(8, 10)}"
+    return formattedNumber
+} //TODO Move?
 
 @Composable
 fun FavoriteTab(favoriteListSize: Int, toFavoritesClick: () -> Unit) {
@@ -95,7 +109,7 @@ fun FavoriteTab(favoriteListSize: Int, toFavoritesClick: () -> Unit) {
                     style = Typography.titleSmall
                 )
                 Text(
-                    text = "$favoriteListSize товар", //TODO parser qty -> string
+                    text = "$favoriteListSize ${goodsMapper(favoriteListSize)}",
                     style = Typography.bodySmall,
                     color = MaterialTheme.colors.textGrey
                 )

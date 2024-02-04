@@ -28,7 +28,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun CompoundPart(catalogItem: Item) {
+fun CompoundPart(catalogItem: Item) { // TODO check point 5.27 (hide - details visibility)
     var partVisibility by remember { mutableStateOf(false) }
 
     Column {
@@ -48,19 +48,23 @@ fun CompoundPart(catalogItem: Item) {
             )
         }
         Spacer(modifier = Modifier.size(16.dp))
-        Text(text = catalogItem.ingredients,
+        Text(
+            text = catalogItem.ingredients,
             style = Typography.bodyMedium, color = MaterialTheme.colors.textDarkGrey,
             maxLines = when (partVisibility) {
                 true -> 20
                 false -> 2
             },
-            overflow = TextOverflow.Ellipsis) //TODO add
+            overflow = TextOverflow.Ellipsis
+        )
         Spacer(modifier = Modifier.size(10.dp))
         Text(
-            text = stringResource(id = when (partVisibility) { //TODO add
-                true -> R.string.product_page_hide
-                false -> R.string.product_page_details
-            }),
+            text = stringResource(
+                id = when (partVisibility) { //TODO add
+                    true -> R.string.product_page_hide
+                    false -> R.string.product_page_details
+                }
+            ),
             style = Typography.displaySmall, color = MaterialTheme.colors.textGrey,
             modifier = Modifier.clickable { partVisibility = !partVisibility })
     }

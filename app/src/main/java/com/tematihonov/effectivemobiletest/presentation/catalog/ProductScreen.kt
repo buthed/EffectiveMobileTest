@@ -18,17 +18,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
 import com.tematihonov.effectivemobiletest.domain.models.Item
 import com.tematihonov.effectivemobiletest.mapper.parseIdToImageList
+import com.tematihonov.effectivemobiletest.mapper.productAvailableMapper
 import com.tematihonov.effectivemobiletest.presentation.app_components.AppDivider
-import com.tematihonov.effectivemobiletest.presentation.app_components.BigEllipse
 import com.tematihonov.effectivemobiletest.presentation.app_components.ButtonAddToBasket
 import com.tematihonov.effectivemobiletest.presentation.app_components.CatalogItemTopAppBar
 import com.tematihonov.effectivemobiletest.presentation.app_components.Discount
@@ -37,11 +40,20 @@ import com.tematihonov.effectivemobiletest.presentation.app_components.StarRatin
 import com.tematihonov.effectivemobiletest.presentation.catalog.components.CharacteristicsPart
 import com.tematihonov.effectivemobiletest.presentation.catalog.components.CompoundPart
 import com.tematihonov.effectivemobiletest.presentation.catalog.components.DescriptionPart
+import com.tematihonov.effectivemobiletest.presentation.catalog.components.ViewPager
+import com.tematihonov.effectivemobiletest.presentation.catalog.components.ViewPagerPagination
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButton: () -> Unit, backClick: () -> Unit) { //TODO fix backpress action
+fun ProductScreen(
+    catalogItem: Item?,
+    productInFavorites: Boolean,
+    favoriteButton: () -> Unit,
+    backClick: () -> Unit,
+) {
+    var imagePage by remember { mutableStateOf(0) }
+
     Scaffold(
         topBar = {
             CatalogItemTopAppBar(backClick = backClick)
@@ -71,22 +83,27 @@ fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButto
                             .height(360.dp), contentAlignment = Alignment.BottomStart
                     ) {
                         Box(modifier = Modifier, contentAlignment = Alignment.TopEnd) {
+
+                            // ViewPager
+                            ViewPager(
+                                images = parseIdToImageList(catalogItem.id),
+                                currentPage = imagePage
+                            ) {
+                                imagePage = it
+                            }
                             Image(
-                                painter = painterResource(id = parseIdToImageList(catalogItem.id)[0]),
-                                contentDescription = "",
-                                contentScale = ContentScale.FillBounds,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(360.dp)
-                            ) //TODO add carousel
-                            Image(
-                                painter = painterResource(id =
+                                painter = painterResource(
+                                    id =
                                     when (productInFavorites) {
                                         true -> R.drawable.icon_heart_active
                                         false -> R.drawable.icon_heart
-                                    }),
-                                contentDescription = "", modifier = Modifier.size(24.dp).clickable(onClick = favoriteButton)
-                            ) //TODO add room
+                                    }
+                                ),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clickable(onClick = favoriteButton)
+                            )
                         }
                         Box(modifier = Modifier.padding(bottom = 16.dp)) {
                             Image(
@@ -98,17 +115,10 @@ fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButto
                     }
 
                     // Pagination
-                    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                        Row(
-                            modifier = Modifier.padding(vertical = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            repeat(2) {//TODO add carousel
-                                BigEllipse()
-                            }
-                        }
-                    }
-
+                    ViewPagerPagination(
+                        images = parseIdToImageList(catalogItem.id),
+                        currentPage = imagePage
+                    )
                     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         Text(
                             text = catalogItem.title,
@@ -121,7 +131,11 @@ fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButto
                             color = MaterialTheme.colors.textBlack
                         )
                         Text(
-                            text = "Доступно для заказа ${catalogItem.available} штук", //TODO add count -> to string парсер
+                            text = "Доступно для заказа ${catalogItem.available} ${
+                                productAvailableMapper(
+                                    catalogItem.available
+                                )
+                            }",
                             style = Typography.bodyMedium,
                             color = MaterialTheme.colors.textGrey
                         )
@@ -133,8 +147,11 @@ fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButto
                         horizontalArrangement = Arrangement.spacedBy(14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "${catalogItem.price.priceWithDiscount} ${catalogItem.price.unit}", style = Typography.headlineLarge,
-                            color = MaterialTheme.colors.textBlack)
+                        Text(
+                            text = "${catalogItem.price.priceWithDiscount} ${catalogItem.price.unit}",
+                            style = Typography.headlineLarge,
+                            color = MaterialTheme.colors.textBlack
+                        )
                         Box(contentAlignment = Alignment.Center) {
                             Text(
                                 "${catalogItem.price.price} ${catalogItem.price.unit}",
@@ -151,10 +168,11 @@ fun ProductScreen(catalogItem: Item?, productInFavorites: Boolean, favoriteButto
                         DescriptionPart(catalogItem)
                         CharacteristicsPart(catalogItem)
                         CompoundPart(catalogItem)
-                        ButtonAddToBasket() {} //TODO add
+                        ButtonAddToBasket(catalogItem.price)
                     }
                 }
             }
+
             false -> {
                 ProgressIndicator()
             }

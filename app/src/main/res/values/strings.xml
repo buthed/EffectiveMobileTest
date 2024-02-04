@@ -36,6 +36,12 @@
     <string name="product_page_characteristics">Характеристики</string>
     <string name="product_page_compound">Состав</string>
     <string name="product_page_add_to_basket">Добавить корзину</string>
+    <string name="product_available_0">штук</string>
+    <string name="product_available_1">штука</string>
+    <string name="product_available_2">штуки</string>
+    <string name="product_feedback_0">отзывов</string>
+    <string name="product_feedback_1">отзыв</string>
+    <string name="product_feedback_2">отзыва</string>
 
     // Personal account
     <string name="personal_account_title">Личный кабинет</string>
@@ -50,5 +56,9 @@
     <string name="favorite_title">Избранное</string>
     <string name="favorite_goods">Товары</string>
     <string name="favorite_brands">Бренды</string>
+    <string name="product_goods_0">товаров</string>
+    <string name="product_goods_1">товар</string>
+    <string name="product_goods_2">товара</string>
+
 
 </resources>

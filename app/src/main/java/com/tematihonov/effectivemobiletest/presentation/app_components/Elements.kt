@@ -21,6 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
+import com.tematihonov.effectivemobiletest.mapper.productFeedbackMapper
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 import kotlin.math.roundToInt
@@ -38,13 +39,18 @@ fun Discount(discount: Int) {
 }
 
 @Composable
-fun SmallEllipse() {
+fun SmallEllipse(active: Boolean) {
     Box(
         modifier = Modifier
             .size(8.dp)
             .padding(2.dp)
             .clip(RoundedCornerShape(100))
-            .background(MaterialTheme.colors.bgPink),
+            .background(
+                when (active) {
+                    true -> MaterialTheme.colors.bgPink
+                    false -> MaterialTheme.colors.elementLightGray
+                }
+            ),
     ) {}
 }
 
@@ -73,28 +79,32 @@ fun StarRatingLong(averageRating: Double, qtyReviews: Int) {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val filledStars = if ((averageRating/1.0)%1.0==0.5)  (averageRating/1.0).roundToInt()-1
-            else (averageRating/1.0).roundToInt()
+            val filledStars =
+                if ((averageRating / 1.0) % 1.0 == 0.5) (averageRating / 1.0).roundToInt() - 1
+                else (averageRating / 1.0).roundToInt()
 
             repeat(filledStars) {
                 Image(
-                    painter = painterResource(id = R.drawable.icon_star_full), contentDescription = "",
+                    painter = painterResource(id = R.drawable.icon_star_full),
+                    contentDescription = "",
                     modifier = Modifier.size(16.dp)
                 )
             }
             if ((averageRating - filledStars) in 0.2..0.8) {
                 Image(
-                    painter = painterResource(id = R.drawable.icon_star_half), contentDescription = "",
+                    painter = painterResource(id = R.drawable.icon_star_half),
+                    contentDescription = "",
                     modifier = Modifier.size(16.dp)
                 )
 
             }
             repeat(
-                if (averageRating > (averageRating.roundToInt())) 4-filledStars
+                if (averageRating > (averageRating.roundToInt())) 4 - filledStars
                 else 5 - filledStars
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.icon_star_full), contentDescription = "",
+                    painter = painterResource(id = R.drawable.icon_star_full),
+                    contentDescription = "",
                     modifier = Modifier.size(16.dp),
                     tint = MaterialTheme.colors.textGrey
                 )
@@ -113,24 +123,31 @@ fun StarRatingLong(averageRating: Double, qtyReviews: Int) {
                     .clip(RoundedCornerShape(100))
                     .background(MaterialTheme.colors.textGrey),
             ) {}
-            Text(text = "$qtyReviews отзыва", style = Typography.bodyMedium, color = MaterialTheme.colors.textGrey) //TODO recheck qty -> string
+            Text(
+                text = "$qtyReviews ${productFeedbackMapper(qtyReviews)}",
+                style = Typography.bodyMedium,
+                color = MaterialTheme.colors.textGrey
+            )
         }
         Spacer(modifier = Modifier.size(16.dp))
     }
 }
 
 @Composable
-fun BigEllipse() {
+fun BigEllipse(active: Boolean) {
     Box(
         modifier = Modifier
             .size(10.dp)
             .padding(2.dp)
             .clip(RoundedCornerShape(100))
-            .background(MaterialTheme.colors.bgPink),
+            .background(
+                when (active) {
+                    true -> MaterialTheme.colors.bgPink
+                    false -> MaterialTheme.colors.elementLightGray
+                }
+            )
     ) {}
 }
-
-
 
 
 @Preview
@@ -138,12 +155,12 @@ fun BigEllipse() {
 fun ElementsPreview() {
     Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
         Discount(discount = 35)
-        SmallEllipse()
+        SmallEllipse(true)
         StarRating(4.3, 4)
         StarRatingLong(3.3, 5)
         StarRatingLong(4.0, 6)
         StarRatingLong(4.5, 7)
         StarRatingLong(5.0, 8)
-        BigEllipse()
+        BigEllipse(true)
     }
 }

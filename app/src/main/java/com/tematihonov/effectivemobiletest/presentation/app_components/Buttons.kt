@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tematihonov.effectivemobiletest.R
+import com.tematihonov.effectivemobiletest.domain.models.Price
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
@@ -68,15 +69,12 @@ fun ButtonExit(buttonClick: () -> Unit) {
 }
 
 @Composable
-fun ButtonAddToBasket(
-    buttonClick: () -> Unit,
-) {
+fun ButtonAddToBasket(catalogItemPrice: Price) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colors.bgPink)
-            .clickable(onClick = buttonClick),
+            .background(MaterialTheme.colors.bgPink),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -85,16 +83,18 @@ fun ButtonAddToBasket(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text(
-                    text = "549 P", //TODO add
+                    text = "${catalogItemPrice.priceWithDiscount} ${catalogItemPrice.unit}",
                     style = Typography.displayLarge,
                     color = MaterialTheme.colors.textWhite
                 )
                 Box(contentAlignment = Alignment.Center) {
                     Text(
-                        "899 P", //${catalogItem.price.price} ${catalogItem.price.unit} //TODO add
+                        "${catalogItemPrice.price} ${catalogItemPrice.unit}",
                         style = Typography.bodyMedium, color = MaterialTheme.colors.textLightPink
                     )
                     Icon(
@@ -131,5 +131,5 @@ fun ButtonExitPreview() {
 @Composable
 @Preview
 fun ButtonAddToBasketPreview() {
-    ButtonAddToBasket() {}
+    //ButtonAddToBasket()
 }

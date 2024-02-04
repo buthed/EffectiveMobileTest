@@ -37,7 +37,7 @@ fun EmTextField(
     placeholder: String,
     onValueChange: (String) -> Unit,
     validation: Boolean,
-    clearField: () -> Unit
+    clearField: () -> Unit,
 ) {
     var containerColor = when (validation) {
         true -> MaterialTheme.colors.bgLightGray
@@ -63,7 +63,6 @@ fun EmTextField(
                 focusedContainerColor = containerColor,
                 unfocusedContainerColor = containerColor,
                 focusedTextColor = MaterialTheme.colors.textBlack,
-//                disabledPlaceholderColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
@@ -84,11 +83,37 @@ fun EmTextField(
                 if (value.isNotEmpty()) Icon(
                     painter = painterResource(id = R.drawable.icon_small_close),
                     contentDescription = "",
-                    modifier = Modifier.size(28.dp).clickable(onClick = clearField)
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable(onClick = clearField)
                 )
             },
             singleLine = true,
+            visualTransformation = MaxLengthVisualTransformation(20)
         )
+    }
+}
+
+class MaxLengthVisualTransformation(private val maxLength: Int) : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        val trimmed = if (text.length > maxLength) {
+            AnnotatedString(text.substring(0, maxLength))
+        } else {
+            text
+        }
+        return TransformedText(trimmed, OffsetMapping.Identity)
+    }
+}
+
+private fun capitalizeWords(input: AnnotatedString): AnnotatedString {
+    return buildAnnotatedString {
+        val words = input.text.split(" ")
+
+        for (word in words) {
+            if (word.isNotEmpty()) {
+                append("${word[0].uppercase()}${word.substring(1)} ")
+            }
+        }
     }
 }
 
@@ -98,7 +123,7 @@ fun EmTextFieldPhone(
     placeholder: String,
     onValueChange: (String) -> Unit,
     validation: Boolean,
-    clearField: () -> Unit
+    clearField: () -> Unit,
 ) {
 
     Card(
@@ -118,7 +143,6 @@ fun EmTextFieldPhone(
                 focusedContainerColor = MaterialTheme.colors.bgLightGray,
                 unfocusedContainerColor = MaterialTheme.colors.bgLightGray,
                 focusedTextColor = MaterialTheme.colors.textBlack,
-//                disabledPlaceholderColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
@@ -128,7 +152,7 @@ fun EmTextFieldPhone(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone
             ),
-            visualTransformation = PhoneVisualTransformation("+7 000 000 00 00",'0'), //TODO fix mask
+            visualTransformation = PhoneVisualTransformation("+7 000 000 00 00", '0'),
             placeholder = {
                 Text(
                     text = placeholder,
@@ -140,7 +164,9 @@ fun EmTextFieldPhone(
                 if (value.isNotEmpty()) Icon(
                     painter = painterResource(id = R.drawable.icon_small_close),
                     contentDescription = "",
-                    modifier = Modifier.size(28.dp).clickable(onClick = clearField)
+                    modifier = Modifier
+                        .size(28.dp)
+                        .clickable(onClick = clearField)
                 )
             },
             singleLine = true,
@@ -172,14 +198,6 @@ class PhoneVisualTransformation(val mask: String, val maskNumber: Char) : Visual
         }
 
         return TransformedText(annotatedString, PhoneOffsetMapper(mask, maskNumber))
-    }
-
-    override fun equals(other: Any?): Boolean {
-//        if (this === other) return true
-//        if (other !is PhonedVisualTransformation) return false
-//        if (mask != other.mask) return false
-//        if (maskNumber != other.maskNumber) return false
-        return true
     }
 
     override fun hashCode(): Int {

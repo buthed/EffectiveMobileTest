@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -24,7 +23,7 @@ import com.tematihonov.effectivemobiletest.ui.colors
 @Composable
 fun FavoriteScreen(viewModel: ProfileViewModel) {
     Scaffold(
-        topBar = { FavoriteTopAppBar { viewModel.favoriteScreenVisibility = false} },
+        topBar = { FavoriteTopAppBar { viewModel.favoriteScreenVisibility = false } },
         containerColor = MaterialTheme.colors.bgWhite
     ) {
 
@@ -36,12 +35,13 @@ fun FavoriteScreen(viewModel: ProfileViewModel) {
                 bottom = it.calculateBottomPadding(),
                 start = 16.dp,
                 end = 16.dp
-            )
+            ),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             GoodsBrandsSlider(goodsSelected = viewModel.favoriteScreenGoodsSelected) {
                 viewModel.favoriteScreenGoodsSelected = it
             }
-            when(viewModel.favoriteScreenGoodsSelected) {
+            when (viewModel.favoriteScreenGoodsSelected) {
                 true -> {
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
@@ -56,6 +56,7 @@ fun FavoriteScreen(viewModel: ProfileViewModel) {
                         }
                     }
                 }
+
                 false -> {}
             }
 

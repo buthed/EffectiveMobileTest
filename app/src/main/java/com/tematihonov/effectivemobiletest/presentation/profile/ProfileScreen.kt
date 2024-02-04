@@ -34,13 +34,10 @@ import com.tematihonov.effectivemobiletest.ui.colors
 fun ProfileScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<ProfileViewModel>()
     val context = LocalContext.current
-    
+
     Scaffold(
         topBar = {
             TopAppBar(stringResource(id = R.string.personal_account_title))
-        },
-        bottomBar = {
-            ButtonExit() { } //TODO add
         },
         containerColor = MaterialTheme.colors.bgWhite
     ) {
@@ -49,7 +46,7 @@ fun ProfileScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .padding(
                     top = it.calculateTopPadding() + 24.dp,
-                    bottom = it.calculateBottomPadding() + 32.dp,
+                    bottom = it.calculateBottomPadding() + 65.dp,
                     start = 16.dp,
                     end = 16.dp
                 ),
@@ -60,7 +57,7 @@ fun ProfileScreen(navController: NavHostController) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     FavoriteTab(viewModel.favoriteList.size) {
                         viewModel.favoriteScreenVisibility = true
-                    } //TODO add click
+                    }
                     CommonTab(
                         R.drawable.icon_shop,
                         stringResource(id = R.string.personal_account_shops)

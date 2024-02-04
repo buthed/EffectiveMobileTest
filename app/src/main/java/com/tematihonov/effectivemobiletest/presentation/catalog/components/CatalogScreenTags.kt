@@ -33,7 +33,7 @@ fun CatalogScreenTags(selectedTag: String, newTagClick: (String) -> Unit) {
         stringResource(id = R.string.catalog_tag_body),
         stringResource(id = R.string.catalog_tag_tan),
         stringResource(id = R.string.catalog_tag_masks)
-    ) //TODO refactor
+    )
     LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
         items(tags) { tag ->
             when (tag == selectedTag) {

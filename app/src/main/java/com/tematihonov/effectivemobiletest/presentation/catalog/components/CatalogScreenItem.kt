@@ -1,7 +1,5 @@
 package com.tematihonov.effectivemobiletest.presentation.catalog.components
 
-import android.util.Log
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,10 +20,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,13 +37,19 @@ import com.tematihonov.effectivemobiletest.domain.models.Item
 import com.tematihonov.effectivemobiletest.domain.models.Price
 import com.tematihonov.effectivemobiletest.mapper.parseIdToImageList
 import com.tematihonov.effectivemobiletest.presentation.app_components.Discount
-import com.tematihonov.effectivemobiletest.presentation.app_components.SmallEllipse
 import com.tematihonov.effectivemobiletest.presentation.app_components.StarRating
 import com.tematihonov.effectivemobiletest.ui.colors
 import com.tematihonov.effectivemobiletest.ui.theme.Typography
 
 @Composable
-fun CatalogScreenItem(catalogItem: Item, productInFavorites: Boolean, favoriteButton: () -> Unit, selectProduct: () -> Unit) {
+fun CatalogScreenItem(
+    catalogItem: Item,
+    productInFavorites: Boolean,
+    favoriteButton: () -> Unit,
+    selectProduct: () -> Unit,
+) {
+    var imagePage by remember { mutableStateOf(0) }
+
     Card(
         modifier = Modifier
             .background(MaterialTheme.colors.bgWhite)
@@ -53,30 +60,42 @@ fun CatalogScreenItem(catalogItem: Item, productInFavorites: Boolean, favoriteBu
     ) {
         Box(
             modifier = Modifier
-                .height(144.dp),
+                .height(144.dp)
+                .background(MaterialTheme.colors.bgWhite),
             contentAlignment = Alignment.BottomCenter
         ) {
-            Image(
-                painter = painterResource(id = parseIdToImageList(catalogItem.id)[0]), contentDescription = "",//TODO add carousel
-                contentScale = ContentScale.FillWidth
-            ) //TODO add
-            Row {
-                repeat(2) {
-                    SmallEllipse()
+            Column {
+                // ViewPager
+                ViewPagerSmall(
+                    images = parseIdToImageList(catalogItem.id),
+                    currentPage = imagePage
+                ) {
+                    imagePage = it
                 }
+
+                // Pagination
+                ViewPagerPaginationSmall(
+                    images = parseIdToImageList(catalogItem.id),
+                    currentPage = imagePage
+                )
             }
             Box(
                 modifier = Modifier
                     .height(144.dp)
-                    .width(168.dp), contentAlignment = Alignment.TopEnd
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd,
             ) {
                 Image(
-                    painter = painterResource(id =
-                        when(productInFavorites) {
+                    painter = painterResource(
+                        id =
+                        when (productInFavorites) {
                             true -> R.drawable.icon_heart_active
                             false -> R.drawable.icon_heart
-                        }), contentDescription = "", //TODO add favorites
-                    modifier = Modifier.padding(6.dp).clickable(onClick = favoriteButton)
+                        }
+                    ), contentDescription = "",
+                    modifier = Modifier
+                        .padding(6.dp)
+                        .clickable(onClick = favoriteButton)
                 )
             }
         }
@@ -91,14 +110,21 @@ fun CatalogScreenItem(catalogItem: Item, productInFavorites: Boolean, favoriteBu
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Text("${catalogItem.price.price} ${catalogItem.price.unit}", style = Typography.labelSmall, color = MaterialTheme.colors.textGrey)
+                    Text(
+                        "${catalogItem.price.price} ${catalogItem.price.unit}",
+                        style = Typography.labelSmall,
+                        color = MaterialTheme.colors.textGrey
+                    )
                     Image(
                         painter = painterResource(id = R.drawable.crossed_out),
                         contentDescription = ""
                     )
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Text(text = "${catalogItem.price.priceWithDiscount} ${catalogItem.price.unit}", style = Typography.titleSmall)
+                    Text(
+                        text = "${catalogItem.price.priceWithDiscount} ${catalogItem.price.unit}",
+                        style = Typography.titleSmall
+                    )
                     Discount(catalogItem.price.discount)
                 }
                 Text(text = catalogItem.title, style = Typography.headlineSmall)
@@ -133,7 +159,7 @@ fun CatalogScreenItem(catalogItem: Item, productInFavorites: Boolean, favoriteBu
 @Preview
 fun CatalogScreenItemPreview() {
     val catalogItem = Item(
-        available =  100,
+        available = 100,
         description = "Лосьон для тела `ESFOLIO` COENZYME Q10 Увлажняющий содержит минеральную воду и соду, способствует глубокому очищению пор от различных загрязнений, контроллирует работу сальных желез, сужает поры. Обладает мягким антиептическим действием, не пересушивает кожу. Минеральная вода тонизирует и смягчает кожу.",
         feedback = Feedback(
             count = 51,
